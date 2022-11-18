@@ -1,6 +1,4 @@
-import os
 import glob
-
 from PIL import Image
 import pytesseract
 import numpy as np

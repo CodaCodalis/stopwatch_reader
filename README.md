@@ -1,1 +1,9 @@
-# stopwatch_reader v0.1
+# stop watch reader v0.1
+
+## Python
+
+
+## openCV
+
+
+## tesseract
