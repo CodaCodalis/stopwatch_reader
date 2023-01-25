@@ -2,7 +2,7 @@
 
 ## Python
 * copy image file of stop watch display to resources/digital\_clock\_fonts 
-* start program, chooose [1] digital clock font
+* start program, choose [1] digital clock font
 * program will iterate through the directory and return the recognized values
 
 ## openCV
