@@ -41,7 +41,9 @@ def menu(choice):
             # ocr.analyze(image_ocr_processor.prepare(image))
 
     elif choice == "3":
-        stopwatch_finder.find()
+        for image in sorted(glob.iglob('resources/images/*')):
+            number = number + 1
+            # stopwatch_finder.recognize_rotated(mask, image, number)
         # for image in sorted(glob.iglob('resources/images/*')):
         #    hough_lines_finder.preprocess(image)
         #    hough_lines_finder.find(image)
