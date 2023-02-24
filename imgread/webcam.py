@@ -1,5 +1,6 @@
 import cv2
 
+
 def take_pictures():
     cam = cv2.VideoCapture(0)
     s, img = cam.read()

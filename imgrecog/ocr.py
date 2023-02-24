@@ -1,9 +1,8 @@
 import pytesseract
 import numpy as np
 
+
 def analyze(image):
-
-
     # define custom config
     custom_config = r'--psm 7 --oem 3 --tessdata-dir "tessdata" -c tessedit_char_whitelist=".:0123456789 "'
 
