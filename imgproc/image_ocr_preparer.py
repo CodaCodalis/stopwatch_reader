@@ -20,4 +20,4 @@ def prepare(image, number):
 
     cv2.imwrite("resources/temp/temp" + str(number) + ".jpg", img)
 
-    # return img
+    return img

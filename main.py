@@ -1,6 +1,8 @@
 import glob
+import cv2
+import numpy as np
 from imgread import webcam
-from imgrecog import ocr
+from imgrecog import ocr, yolo
 from imgproc import (edge_detector,
                      image_ocr_preparer,
                      contours_finder,
@@ -17,7 +19,8 @@ def print_main_menu():
     print("[1] Echtzeit-Erkennung mit der Webcam")
     print("[2] Erkennung von Bildern aus Projektordner")
     print("[3] Formerkennung (Test)")
-    print("[4] Beenden")
+    print("[4] YOLO")
+    print("[5] Beenden")
 
 
 def menu(choice):
@@ -29,19 +32,32 @@ def menu(choice):
         for image in sorted(glob.iglob('resources/realtime/*')):
             ocr.analyze(image_ocr_preparer.prepare(image))
     elif choice == "2":
-        for image in sorted(glob.iglob('resources/images/*')):
+        for image in sorted(glob.iglob('resources/cropped_mask_display_color/*')):
             # detect edges
-            number = number + 1
-            edge_detector.detect(image, number)
+
+            # edge_detector.detect(image, number)
 
             # form mask and crop everything but display section in original, translate and rotate image for a while
             # edge_detection.crop_and_so_on(image)
 
             # process original cropped image for ocr
-            # ocr.analyze(image_ocr_processor.prepare(image))
+            ocr.analyze(image_ocr_preparer.prepare(image, number))
+            number = number + 1
 
     elif choice == "3":
-        stopwatch_finder.find()
+        mask = cv2.imread('resources/mask_stopwatch_display_color.jpg')
+        for file in sorted(glob.iglob('resources/images/*')):
+            img = cv2.imread(file)
+            stopwatch_finder.find_stopwatch(mask, img, number)
+            number = number + 1
+
+        mask = cv2.imread('resources/mask_stopwatch_display_color_near.jpg')
+        number = 0
+        for file in sorted(glob.iglob('resources/cropped_mask_display_color/*')):
+            img = cv2.imread(file)
+            stopwatch_finder.find_display(mask, img, number)
+            number = number + 1
+
         # for image in sorted(glob.iglob('resources/images/*')):
         #    hough_lines_finder.preprocess(image)
         #    hough_lines_finder.find(image)
@@ -60,8 +76,12 @@ def menu(choice):
         # for image in sorted(glob.iglob('resources/temp/*')):
         #    number = number + 1
         #    text_deskewer.deskew(image, number)
-
     elif choice == "4":
+        for file in sorted(glob.iglob('resources/yolo_sources/*')):
+            img = cv2.imread(file)  # .astype(np.float32)
+            yolo.detect(img)
+
+    elif choice == "5":
         exit(0)
     else:
         print("Unerwartete Eingabe...")
